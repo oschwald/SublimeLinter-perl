@@ -10,7 +10,9 @@
 
 """This module exports the Perl plugin class."""
 
+import shlex
 from SublimeLinter.lint import Linter, util
+
 
 class Perl(Linter):
 
@@ -38,6 +40,7 @@ class Perl(Linter):
         include_dirs = settings.get('include_dirs', [])
 
         if include_dirs:
-            full_cmd += ' ' . join([' -I ' + shlex.quote(include) for include in include_dirs])
+            full_cmd += ' ' . join([' -I ' + shlex.quote(include)
+                                   for include in include_dirs])
 
         return full_cmd
