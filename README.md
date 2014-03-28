@@ -25,6 +25,12 @@ To install via Package Control, do the following:
 ## Settings
 For general information on how SublimeLinter works with settings, please see [Settings](http://sublimelinter.readthedocs.org/en/latest/settings.html). For information on generic linter settings, please see [Linter Settings](http://sublimelinter.readthedocs.org/en/latest/linter_settings.html).
 
+In addition to the standard SublimeLinter settings, SublimeLinter-perl provides its own settings.
+
+|Setting|Description|
+|:------|:----------|
+|include_dirs|A list of directories to be added to the module include search paths|
+
 ## Contributing
 If you would like to contribute enhancements or fixes, please do the following:
 

@@ -12,12 +12,32 @@
 
 from SublimeLinter.lint import Linter, util
 
-
 class Perl(Linter):
 
     """Provides an interface to perl -c."""
 
     syntax = ('modernperl', 'perl')
-    cmd = 'perl -c'
+    executable = 'perl'
+    base_cmd = ('perl -c')
     regex = r'(?P<message>.+?) at .+? line (?P<line>\d+)(, near "(?P<near>.+?)")?'
     error_stream = util.STREAM_STDERR
+
+    def cmd(self):
+        """
+        Return the command line to execute.
+
+        Overridden so we can add include paths based on the 'include_dirs'
+        settings.
+
+        """
+
+        full_cmd = self.base_cmd
+
+        settings = self.get_view_settings()
+
+        include_dirs = settings.get('include_dirs', [])
+
+        if include_dirs:
+            full_cmd += ' ' . join([' -I ' + shlex.quote(include) for include in include_dirs])
+
+        return full_cmd
