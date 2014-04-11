@@ -20,7 +20,7 @@ class Perl(Linter):
 
     syntax = ('modernperl', 'perl')
     executable = 'perl'
-    base_cmd = ('perl -c')
+
     regex = r'(?P<message>.+?) at .+? line (?P<line>\d+)(, near "(?P<near>.+?)")?'
     error_stream = util.STREAM_STDERR
 
@@ -33,14 +33,12 @@ class Perl(Linter):
 
         """
 
-        full_cmd = self.base_cmd
+        command = [self.executable_path, '-c']
 
-        settings = self.get_view_settings()
+        include_dirs = self.get_view_settings().get('include_dirs', [])
 
-        include_dirs = settings.get('include_dirs', [])
+        for e in include_dirs:
+            command.append('-I')
+            command.append(shlex.quote(e))
 
-        if include_dirs:
-            full_cmd += ' ' . join([' -I ' + shlex.quote(include)
-                                   for include in include_dirs])
-
-        return full_cmd
+        return command
