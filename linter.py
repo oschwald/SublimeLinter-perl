@@ -21,7 +21,7 @@ class Perl(Linter):
     syntax = ('modernperl', 'perl')
     executable = 'perl'
 
-    regex = r'(?P<message>.+?) at .+? line (?P<line>\d+)(, near "(?P<near>.+?)")?'
+    regex = r'(?P<message>.+?) at .+?(?P<file>[^\\\/]+?) line (?P<line>\d+)(, near "(?P<near>.+?)")?'
     error_stream = util.STREAM_STDERR
 
     def cmd(self):
@@ -42,3 +42,21 @@ class Perl(Linter):
             command.append(shlex.quote(e))
 
         return command
+
+    def split_match(self, match):
+        """
+        Return the components of the match.
+
+        We override this because perl lints all referenced files,
+        and we only want errors from the linted file.
+
+        """
+
+        if match:
+            matchObj = re.match(
+                r'^.+?(?P<filename>[^\\\/]+?)$', self.filename, re.M | re.I)
+            if matchObj:
+                if match.group('file') != matchObj.group('filename'):
+                    match = None
+
+        return super().split_match(match)
