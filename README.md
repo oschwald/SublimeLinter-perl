@@ -31,6 +31,21 @@ In addition to the standard SublimeLinter settings, SublimeLinter-perl provides 
 |:------|:----------|
 |include_dirs|A list of directories to be added to the module include search paths|
 
+###Example
+
+```json
+...
+"linters": {
+            "perl": {
+                "@disable": false,
+                "args": [],
+                "excludes": [],
+                "include_dirs": ["/path/to/my/project"]
+            },
+...
+```
+
+
 ## Contributing
 If you would like to contribute enhancements or fixes, please do the following:
 
