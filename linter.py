@@ -20,7 +20,6 @@ class Perl(Linter):
     defaults = {
         'selector': 'source.perl, source.modernperl'
     }
-    executable = 'perl'
 
     regex = r'(?P<message>.+?) at - line (?P<line>\d+)(, near "(?P<near>.+?)")?'
     error_stream = util.STREAM_STDERR
@@ -34,9 +33,9 @@ class Perl(Linter):
 
         """
 
-        command = [self.executable_path, '-c']
+        command = ["perl", '-c']
 
-        include_dirs = self.get_view_settings().get('include_dirs', [])
+        include_dirs = self.settings.get('include_dirs', [])
 
         for e in include_dirs:
             command.append('-I')
